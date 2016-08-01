@@ -43,7 +43,7 @@ Qt::Application.new(ARGV) do
 
         timer = Qt::Timer.new
         timer.setSingleShot(false)
-        timer.setInterval(1000)
+        timer.setInterval(300)
         timer.connect(SIGNAL :timeout) do
           snake.move
           canvas.update
@@ -63,6 +63,9 @@ Qt::Application.new(ARGV) do
           if move != nil
             puts "sending move: #{move}"
             @snake.direction=move
+          end
+          if event.key == Qt::Key_Q.to_i
+            @snake.grow
           end
         end
 
