@@ -4,9 +4,7 @@ require 'Qt4'
 
 
 Qt::Application.new(ARGV) do
-	#Qt.debug_level = Qt::DebugLevel::High
     Qt::Widget.new do
-
         self.window_title = 'Snake Game with QtRuby!'
         resize(500, 500)
     
