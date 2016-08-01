@@ -31,8 +31,19 @@ Qt::Application.new(ARGV) do
             painter.restore
           end
         end
-        
+
         canvas = Canvas.new(450, 450, [board, snakeBoundPainter])
+
+        timer = Qt::Timer.new
+        timer.setSingleShot(false)
+        timer.setInterval(1000)
+        timer.connect(SIGNAL :timeout) do
+          snake.move
+          canvas.update
+        end
+        timer.start
+        
+        
 
         self.layout = Qt::VBoxLayout.new do
             add_widget(button, 0, Qt::AlignRight)
