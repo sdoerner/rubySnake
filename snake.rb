@@ -16,6 +16,7 @@ class Snake
 	DOWN = Point.new(0,1)
 
 	attr_writer :direction
+	attr_reader :shape
 
 
 	def initialize(shape = [Point.new(0,0)])
