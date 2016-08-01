@@ -19,7 +19,6 @@ class Canvas < Qt::Widget
 	end
 
 	def paintEvent(event)
-		puts "canvas paint"
 		painter = Qt::Painter.new(self)
 		@painters.each { |p| p.paint(painter)}
 	  painter.end
@@ -38,8 +37,8 @@ Qt::Application.new(ARGV) do
             connect(SIGNAL :clicked) { Qt::Application.instance.quit }
         end
 
-        board = Board.new(10)
-        canvas = Canvas.new(400, 400, [board])
+        board = Board.new(40, 30)
+        canvas = Canvas.new(450, 450, [board])
         
         self.layout = Qt::VBoxLayout.new do
             add_widget(button, 0, Qt::AlignRight)

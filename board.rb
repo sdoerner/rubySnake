@@ -1,10 +1,10 @@
 require 'Qt4'
 
 class Board
-	def initialize(unit_size_px)
+	def initialize(size_x, size_y, unit_size_px = 10)
 		@unit_size_px = unit_size_px
-		@SIZE_X=30
-	  @SIZE_Y=30
+		@SIZE_X=size_x
+	  @SIZE_Y=size_y
 	end
 
 	def paint(painter)
