@@ -7,6 +7,12 @@ require 'Qt4'
 
 Qt::Application.new(ARGV) do
     Qt::Widget.new do
+        @keymap = {
+          Qt::Key_Left.to_i => Snake::LEFT,
+          Qt::Key_Right.to_i => Snake::RIGHT,
+          Qt::Key_Up.to_i => Snake::UP,
+          Qt::Key_Down.to_i => Snake::DOWN
+        }
         self.window_title = 'Snake Game with QtRuby!'
         resize(500, 500)
     
@@ -19,6 +25,7 @@ Qt::Application.new(ARGV) do
         snakePainter = QtSnakePainter.new(SCALE, Qt::blue)
 
         snake = Snake.new()
+        @snake = snake
         snake.grow
         snake.grow
 
@@ -49,6 +56,16 @@ Qt::Application.new(ARGV) do
             add_widget(button, 0, Qt::AlignRight)
             add_widget(canvas, 0, Qt::AlignCenter)
         end
+
+        def keyPressEvent(event)
+          puts "event 2"
+          move = @keymap[event.key]
+          if move != nil
+            puts "sending move: #{move}"
+            @snake.direction=move
+          end
+        end
+
         show
     end
     exec

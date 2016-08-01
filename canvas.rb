@@ -20,4 +20,5 @@ class Canvas < Qt::Widget
 		@painters.each { |p| p.paint(painter)}
 	  painter.end
 	end
+
 end
