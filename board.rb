@@ -2,8 +2,7 @@ require 'Qt4'
 require_relative 'point'
 
 class Board
-  def initialize(size_x, size_y, unit_size_px = 10)
-    @unit_size_px = unit_size_px
+  def initialize(size_x, size_y)
     @SIZE_X=size_x
     @SIZE_Y=size_y
     @board_content = Array.new(size_x){ Array.new(size_y, :empty) }
@@ -22,21 +21,21 @@ class Board
   def paint(painter)
     paint_border(painter)
     painter.save
-    painter.translate(@unit_size_px, @unit_size_px)
+    painter.translate(1, 1)
     #draw in in-board coordinates
     painter.restore
   end
 
   private
     def paint_border(painter)
-      border_width_px = (@SIZE_X + 2) *  @unit_size_px
-      border_height_px = (@SIZE_Y + 2) * @unit_size_px
+      border_width_px = (@SIZE_X + 2)
+      border_height_px = (@SIZE_Y + 2)
       color = Qt::black
 
-      painter.fillRect(0, 0, border_width_px, @unit_size_px, color)
-      painter.fillRect(0, 0, @unit_size_px, border_height_px, color)
-      painter.fillRect(border_width_px - @unit_size_px, 0, @unit_size_px, border_height_px, color)
-      painter.fillRect(0, border_height_px - @unit_size_px, border_width_px, @unit_size_px, color)
+      painter.fillRect(0, 0, border_width_px, 1, color)
+      painter.fillRect(0, 0, 1, border_height_px, color)
+      painter.fillRect(border_width_px - 1, 0, 1, border_height_px, color)
+      painter.fillRect(0, border_height_px - 1, border_width_px, 1, color)
     end
 
     # returns a 2-dimensional array of [element,points] pairs for all points on the board

@@ -1,8 +1,9 @@
 class Canvas < Qt::Widget
 
-  def initialize(width, height, painters)
+  def initialize(width, height, scale, painters)
     super()
     @size = Qt::Size.new(width, height)
+    @scale = scale
     @painters = painters
   end
 
@@ -17,6 +18,7 @@ class Canvas < Qt::Widget
 
   def paintEvent(event)
     painter = Qt::Painter.new(self)
+    painter.scale(@scale, @scale)
     @painters.each { |p| p.paint(painter)}
     painter.end
   end

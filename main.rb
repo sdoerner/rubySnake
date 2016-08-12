@@ -19,9 +19,8 @@ Qt::Application.new(ARGV) do
             connect(SIGNAL :clicked) { Qt::Application.instance.quit }
         end
 
-        SCALE = 10
-        board = Board.new(42, 32, SCALE)
-        snakePainter = QtSnakePainter.new(SCALE, Qt::blue)
+        board = Board.new(42, 32)
+        snakePainter = QtSnakePainter.new(Qt::blue)
 
         snake = Snake.new()
         @snake = snake
@@ -32,13 +31,14 @@ Qt::Application.new(ARGV) do
         snakeBoundPainter = Class.new do
           self.define_singleton_method(:paint) do |painter|
             painter.save
-            painter.translate(SCALE, SCALE)
+            painter.translate(1, 1)
             snakePainter.paintSnake(snake, painter)
             painter.restore
           end
         end
 
-        canvas = Canvas.new(450, 450, [board, snakeBoundPainter])
+        SCALE = 10
+        canvas = Canvas.new(450, 450, SCALE, [board, snakeBoundPainter])
 
         timer = Qt::Timer.new
         timer.setSingleShot(false)
