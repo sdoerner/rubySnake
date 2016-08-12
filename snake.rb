@@ -1,12 +1,4 @@
-class Point < Struct.new(:x, :y)
-	def +(other)
-		Point.new(x + other.x, y + other.y)
-	end
-
-	def to_s
-		"(#{x}, #{y})"
-	end
-end
+require_relative 'point'
 
 class Snake
 	#directions expressed as Point delta
