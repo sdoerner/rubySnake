@@ -28,7 +28,7 @@ class Snake
 		@shape.length
 	end
 
-    #returns the next point the snake would go to
+  #returns the next point the snake would go to
 	def next
 		if @shape.length == 0
 			Point.new(0,0)
@@ -37,7 +37,7 @@ class Snake
 		end
 	end
 
-    #moves the snake to the next field, not changing its size
+  #moves the snake to the next field, not changing its size
 	def move
 		@shape << self.next
 		@shape = @shape.drop(1)

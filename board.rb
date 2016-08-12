@@ -10,7 +10,6 @@ class Board
 	def paint(painter)
 		border_width_px = (@SIZE_X + 2) *  @unit_size_px
 		border_height_px = (@SIZE_Y + 2) * @unit_size_px
-		painter.setPen(Qt::green)
 		color = Qt::black
 
 		painter.fillRect(0, 0, border_width_px, @unit_size_px, color)
