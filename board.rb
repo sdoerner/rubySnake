@@ -20,17 +20,25 @@ class Board
   end
 
 	def paint(painter)
-		border_width_px = (@SIZE_X + 2) *  @unit_size_px
-		border_height_px = (@SIZE_Y + 2) * @unit_size_px
-		color = Qt::black
-
-		painter.fillRect(0, 0, border_width_px, @unit_size_px, color)
-		painter.fillRect(0, 0, @unit_size_px, border_height_px, color)
-		painter.fillRect(border_width_px - @unit_size_px, 0, @unit_size_px, border_height_px, color)
-		painter.fillRect(0, border_height_px - @unit_size_px, border_width_px, @unit_size_px, color)
+    paint_border(painter)
+    painter.save
+    painter.translate(@unit_size_px, @unit_size_px)
+    #draw in in-board coordinates
+    painter.restore
 	end
 
   private
+    def paint_border(painter)
+		  border_width_px = (@SIZE_X + 2) *  @unit_size_px
+		  border_height_px = (@SIZE_Y + 2) * @unit_size_px
+		  color = Qt::black
+
+		  painter.fillRect(0, 0, border_width_px, @unit_size_px, color)
+		  painter.fillRect(0, 0, @unit_size_px, border_height_px, color)
+		  painter.fillRect(border_width_px - @unit_size_px, 0, @unit_size_px, border_height_px, color)
+		  painter.fillRect(0, border_height_px - @unit_size_px, border_width_px, @unit_size_px, color)
+    end
+
     # returns a 2-dimensional array of [element,points] pairs for all points on the board
     def boardWithCoords
       @board_content.map.with_index do |column, x|
