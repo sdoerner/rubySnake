@@ -27,7 +27,7 @@ class GameLogic
     when :fruit
       add_points
       @board.setField(next_snake_point, :empty)
-      moveSnake
+      growSnake
       @board.placeRandomFruit
     when :empty
       moveSnake
