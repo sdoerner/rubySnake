@@ -12,6 +12,7 @@ class GameLogic
     @snake.shape.each do |p|
       @board.setField(p, :snake)
     end
+    @board.placeRandomFruit
   end
 
   def evaluateTurn
@@ -24,6 +25,7 @@ class GameLogic
       add_points
       @board.setField(next_snake_point, :empty)
       moveSnake
+      @board.placeRandomFruit
     when :empty
       moveSnake
     else
