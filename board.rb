@@ -1,6 +1,19 @@
 require 'Qt4'
 require_relative 'point'
 
+class Array
+  # returns a 1-dimensional enumerator of (element, Point) pairs where the point is the 2d intex of the element
+  def with_point_index
+    Enumerator.new do |elements|
+      self.each_with_index do |column, x|
+        column.each_with_index do |element, y|
+          elements <<  [element,Point.new(x,y)]
+        end
+      end
+    end
+  end
+end
+
 class Board
   def initialize(size_x, size_y)
     @SIZE_X=size_x
@@ -11,11 +24,12 @@ class Board
   #puts a fruit on a random empty field
   def placeRandomFruit
     empty_points = boardWithCoords
-        .flatten(1)
-        .keep_if { |e| e[0] == :empty }
-        .map { |e| e[1] }
-    point = Random.rand(empty_points.size)
-    @board_content[point.x][point.y] = :fruit
+        .select { |e, coords| e == :empty }
+    if empty_points.size != 0 then
+      random_index = Random.rand(empty_points.size)
+      point = empty_points.to_a[random_index][1]
+      @board_content[point.x][point.y] = :fruit
+    end
   end
 
   def paint(painter)
@@ -38,13 +52,9 @@ class Board
       painter.fillRect(0, border_height_px - 1, border_width_px, 1, color)
     end
 
-    # returns a 2-dimensional array of [element,points] pairs for all points on the board
+    # returns a 1-dimensional array of [element,points] pairs for all points on the board
     def boardWithCoords
-      @board_content.map.with_index do |column, x|
-        column.map.with_index do |element, y|
-          [element, Point.new(x,y)]
-        end
-      end
+      @board_content.with_point_index
     end
 
 end
