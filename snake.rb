@@ -7,7 +7,6 @@ class Snake
   UP = Point.new(0,-1)
   DOWN = Point.new(0,1)
 
-  attr_writer :direction
   attr_reader :shape
 
 
@@ -18,6 +17,14 @@ class Snake
 
   def length
     @shape.length
+  end
+
+  def setDirection(move)
+    # prevent changing direction to the opposite
+    sum = move + @direction
+    if (sum.x != 0 || sum.y != 0) then
+      @direction = move
+    end
   end
 
   # returns the next point the snake would go to

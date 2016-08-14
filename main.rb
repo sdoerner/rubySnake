@@ -73,7 +73,7 @@ Qt::Application.new(ARGV) do
         def keyPressEvent(event)
           move = @keymap[event.key]
           if move != nil
-            @snake.direction=move
+            @snake.setDirection(move)
           end
           if event.key == Qt::Key_Q.to_i
             quit
