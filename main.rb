@@ -41,10 +41,10 @@ Qt::Application.new(ARGV) do
         SCALE = 10
         canvas = Canvas.new(450, 450, SCALE, [@board, snakeBoundPainter])
 
-        timer = Qt::Timer.new
-        timer.setSingleShot(false)
-        timer.setInterval(150)
-        timer.connect(SIGNAL :timeout) do
+        @timer = Qt::Timer.new
+        @timer.setSingleShot(false)
+        @timer.setInterval(150)
+        @timer.connect(SIGNAL :timeout) do
           result,points = @game_logic.evaluateTurn
           if result == :lost
             puts "Lost game at #{points} points"
@@ -52,7 +52,7 @@ Qt::Application.new(ARGV) do
           end
           canvas.update
         end
-        timer.start
+        @timer.start
 
         self.layout = Qt::VBoxLayout.new do
             hLayout = Qt::Widget.new do
@@ -81,6 +81,12 @@ Qt::Application.new(ARGV) do
             @game_logic.growSnake
           elsif event.key == Qt::Key_F.to_i
             @board.placeRandomFruit
+          elsif event.key == Qt::Key_P.to_i
+            if @timer.isActive then
+              @timer.stop
+            else
+              @timer.start
+            end
           end
         end
 
