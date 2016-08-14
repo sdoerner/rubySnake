@@ -40,6 +40,10 @@ class Board
     painter.restore
   end
 
+  def to_s
+    boardWithCoords.map { |e| "[#{e[0]}, #{e[1]}]"} * ","
+  end
+
   private
     def paint_border(painter)
       border_width_px = (@SIZE_X + 2)
