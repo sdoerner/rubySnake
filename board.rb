@@ -19,6 +19,7 @@ class Board
     @SIZE_X=size_x
     @SIZE_Y=size_y
     @board_content = Array.new(size_x){ Array.new(size_y, :empty) }
+    @fruit_renderer = Qt::SvgRenderer.new("./apple.svg")
   end
 
   #puts a fruit on a random empty field
@@ -74,9 +75,8 @@ class Board
 
     def paint_content(painter)
       # paint fruit
-      color = Qt::red
       coordsOfType(:fruit).each do |p|
-        painter.fillRect(p.x, p.y, 1, 1, color)
+        @fruit_renderer.render(painter, Qt::RectF.new(p.x, p.y, 1, 1))
       end
     end
 
