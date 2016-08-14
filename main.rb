@@ -73,10 +73,8 @@ Qt::Application.new(ARGV) do
         end
 
         def keyPressEvent(event)
-          puts "event 2"
           move = @keymap[event.key]
           if move != nil
-            puts "sending move: #{move}"
             @snake.direction=move
           end
           if event.key == Qt::Key_Q.to_i
@@ -84,7 +82,6 @@ Qt::Application.new(ARGV) do
           elsif event.key == Qt::Key_G.to_i
             @snake.grow
           elsif event.key == Qt::Key_F.to_i
-            puts "placing fruit"
             @board.placeRandomFruit
           end
         end
