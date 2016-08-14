@@ -43,7 +43,7 @@ Qt::Application.new(ARGV) do
 
         timer = Qt::Timer.new
         timer.setSingleShot(false)
-        timer.setInterval(300)
+        timer.setInterval(150)
         timer.connect(SIGNAL :timeout) do
           result,points = @game_logic.evaluateTurn
           if result == :lost
