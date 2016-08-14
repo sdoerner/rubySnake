@@ -19,7 +19,7 @@ Qt::Application.new(ARGV) do
             connect(SIGNAL :clicked) { Qt::Application.instance.quit }
         end
 
-        board = Board.new(42, 32)
+        @board = Board.new(42, 32)
         snakePainter = QtSnakePainter.new(Qt::blue)
 
         snake = Snake.new()
@@ -38,7 +38,7 @@ Qt::Application.new(ARGV) do
         end
 
         SCALE = 10
-        canvas = Canvas.new(450, 450, SCALE, [board, snakeBoundPainter])
+        canvas = Canvas.new(450, 450, SCALE, [@board, snakeBoundPainter])
 
         timer = Qt::Timer.new
         timer.setSingleShot(false)
@@ -63,6 +63,10 @@ Qt::Application.new(ARGV) do
           end
           if event.key == Qt::Key_Q.to_i
             @snake.grow
+          end
+          if event.key == Qt::Key_F.to_i
+            puts "placing fruit"
+            @board.placeRandomFruit
           end
         end
 

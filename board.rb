@@ -36,6 +36,7 @@ class Board
     painter.save
     painter.translate(1, 1)
     #draw in in-board coordinates
+    paint_content(painter)
     painter.restore
   end
 
@@ -53,6 +54,14 @@ class Board
       painter.fillRect(0, 0, 1, border_height_px, color)
       painter.fillRect(border_width_px - 1, 0, 1, border_height_px, color)
       painter.fillRect(0, border_height_px - 1, border_width_px, 1, color)
+    end
+
+    def paint_content(painter)
+      # paint fruit
+      color = Qt::red
+      coordsOfType(:fruit).each do |p|
+        painter.fillRect(p.x, p.y, 1, 1, color)
+      end
     end
 
     # returns a 1-dimentional Enumerator of Points that are the coordinates of the board fields that have type type
