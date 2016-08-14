@@ -23,11 +23,10 @@ class Board
 
   #puts a fruit on a random empty field
   def placeRandomFruit
-    empty_points = boardWithCoords
-        .select { |e, coords| e == :empty }
+    empty_points = coordsOfType(:empty)
     if empty_points.size != 0 then
       random_index = Random.rand(empty_points.size)
-      point = empty_points.to_a[random_index][1]
+      point = empty_points.to_a[random_index]
       @board_content[point.x][point.y] = :fruit
     end
   end
@@ -56,7 +55,14 @@ class Board
       painter.fillRect(0, border_height_px - 1, border_width_px, 1, color)
     end
 
-    # returns a 1-dimensional array of [element,points] pairs for all points on the board
+    # returns a 1-dimentional Enumerator of Points that are the coordinates of the board fields that have type type
+    def coordsOfType(type)
+      boardWithCoords
+          .select { |e, coords| e == type }
+          .map { |e, coords| coords }
+    end
+
+    # returns a 1-dimensional Enumerator of [element,points] pairs for all points on the board
     def boardWithCoords
       @board_content.with_point_index
     end
