@@ -8,23 +8,33 @@ class GameLogic
     @snake = snake
     @points = 0
     @points_label = points_label
+
+    @snake.shape.each do |p|
+      @board.setField(p, :snake)
+    end
   end
 
   def evaluateTurn
     next_snake_point = @snake.next
     next_field = @board.getField(next_snake_point)
     case next_field
-    when :wall
+    when :wall, :snake
       [:lost,@points]
     when :fruit
       add_points
       @board.setField(next_snake_point, :empty)
-      @snake.move
+      moveSnake
     when :empty
-      @snake.move
+      moveSnake
     else
       raise "Unexpected board content #{next_field}"
     end
+  end
+
+  def moveSnake
+    old_tail, new_head = @snake.move
+    @board.setField(old_tail, :empty)
+    @board.setField(new_head, :snake)
   end
 
   def add_points(points_to_add = 1)

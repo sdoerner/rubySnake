@@ -30,9 +30,13 @@ class Snake
   end
 
   #moves the snake to the next field, not changing its size
+  # returns [old field, new field] for the old and new shape of the snake
   def move
-    @shape << self.next
+    next_head = self.next
+    old_tail = @shape[0]
+    @shape << next_head
     @shape = @shape.drop(1)
+    [old_tail,next_head]
   end
 
   #grows the snake by advancing to the next field but not cutting its tail
