@@ -12,6 +12,9 @@ class GameLogic
     @snake.shape.each do |p|
       @board.setField(p, :snake)
     end
+    @snake.grow
+    @snake.grow
+    @snake.grow
     @board.placeRandomFruit
   end
 
@@ -37,6 +40,11 @@ class GameLogic
     old_tail, new_head = @snake.move
     @board.setField(old_tail, :empty)
     @board.setField(new_head, :snake)
+  end
+
+  def growSnake
+    new_field = @snake.grow
+    @board.setField(new_field, :snake)
   end
 
   def add_points(points_to_add = 1)

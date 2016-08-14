@@ -1,7 +1,7 @@
 require_relative 'point'
 
 class Snake
-  #directions expressed as Point delta
+  # directions expressed as Point delta
   LEFT = Point.new(-1,0)
   RIGHT = Point.new(1,0)
   UP = Point.new(0,-1)
@@ -20,7 +20,7 @@ class Snake
     @shape.length
   end
 
-  #returns the next point the snake would go to
+  # returns the next point the snake would go to
   def next
     if @shape.length == 0
       Point.new(0,0)
@@ -29,7 +29,7 @@ class Snake
     end
   end
 
-  #moves the snake to the next field, not changing its size
+  # moves the snake to the next field, not changing its size
   # returns [old field, new field] for the old and new shape of the snake
   def move
     next_head = self.next
@@ -39,9 +39,12 @@ class Snake
     [old_tail,next_head]
   end
 
-  #grows the snake by advancing to the next field but not cutting its tail
+  # grows the snake by advancing to the next field but not cutting its tail
+  # returns the newly added field
   def grow
-    @shape << self.next
+    next_head= self.next
+    @shape << next_head
+    next_head
   end
 
   def to_s

@@ -25,8 +25,6 @@ Qt::Application.new(ARGV) do
 
         snake = Snake.new()
         @snake = snake
-        snake.grow
-        snake.grow
 
         @game_logic = GameLogic.new(@board,@snake, point_label)
 
@@ -80,7 +78,7 @@ Qt::Application.new(ARGV) do
           if event.key == Qt::Key_Q.to_i
             quit
           elsif event.key == Qt::Key_G.to_i
-            @snake.grow
+            @game_logic.growSnake
           elsif event.key == Qt::Key_F.to_i
             @board.placeRandomFruit
           end
