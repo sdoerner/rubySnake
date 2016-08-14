@@ -31,6 +31,22 @@ class Board
     end
   end
 
+  def getField(point)
+    if point.x < 0 || point.x >= @SIZE_X || point.y < 0 || point.y >= @SIZE_Y then
+      :wall
+    else
+      @board_content[point.x][point.y]
+    end
+  end
+
+  def setField(point, value)
+    if point.x < 0 || point.x >= @SIZE_X || point.y < 0 || point.y >= @SIZE_Y then
+      raise "Invalid board positioni #{point}"
+    else
+      @board_content[point.x][point.y] = value
+    end
+  end
+
   def paint(painter)
     paint_border(painter)
     painter.save

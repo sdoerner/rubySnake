@@ -2,6 +2,7 @@ require_relative 'board'
 require_relative 'canvas'
 require_relative 'snake'
 require_relative 'qtsnakepainter'
+require_relative 'gamelogic'
 require 'Qt4'
 
 Qt::Application.new(ARGV) do
@@ -15,12 +16,9 @@ Qt::Application.new(ARGV) do
         self.window_title = 'Snake Game with QtRuby!'
         resize(500, 500)
 
-        button = Qt::PushButton.new('Quit') do
-            connect(SIGNAL :clicked) { Qt::Application.instance.quit }
-        end
+        button = Qt::PushButton.new('Quit')
+        button.connect(SIGNAL :clicked) { quit }
         point_label = Qt::Label.new("") {}
-        @point_label = point_label
-        @points = 0
 
         @board = Board.new(42, 32)
         snakePainter = QtSnakePainter.new(Qt::blue)
@@ -29,6 +27,8 @@ Qt::Application.new(ARGV) do
         @snake = snake
         snake.grow
         snake.grow
+
+        @game_logic = GameLogic.new(@board,@snake, point_label)
 
         # bind qt painter to our snake
         snakeBoundPainter = Class.new do
@@ -47,7 +47,11 @@ Qt::Application.new(ARGV) do
         timer.setSingleShot(false)
         timer.setInterval(300)
         timer.connect(SIGNAL :timeout) do
-          snake.move
+          result,points = @game_logic.evaluateTurn
+          if result == :lost
+            puts "Lost game at #{points} points"
+            quit
+          end
           canvas.update
         end
         timer.start
@@ -64,9 +68,8 @@ Qt::Application.new(ARGV) do
             add_widget(canvas, 0, Qt::AlignCenter)
         end
 
-        def add_points(points_to_add = 1)
-          @points += points_to_add
-          @point_label.setText(@points.to_s)
+        def quit
+          Qt::Application.instance.quit
         end
 
         def keyPressEvent(event)
@@ -77,9 +80,10 @@ Qt::Application.new(ARGV) do
             @snake.direction=move
           end
           if event.key == Qt::Key_Q.to_i
+            quit
+          elsif event.key == Qt::Key_G.to_i
             @snake.grow
-          end
-          if event.key == Qt::Key_F.to_i
+          elsif event.key == Qt::Key_F.to_i
             puts "placing fruit"
             @board.placeRandomFruit
           end
