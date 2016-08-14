@@ -18,6 +18,9 @@ Qt::Application.new(ARGV) do
         button = Qt::PushButton.new('Quit') do
             connect(SIGNAL :clicked) { Qt::Application.instance.quit }
         end
+        point_label = Qt::Label.new("") {}
+        @point_label = point_label
+        @points = 0
 
         @board = Board.new(42, 32)
         snakePainter = QtSnakePainter.new(Qt::blue)
@@ -50,8 +53,20 @@ Qt::Application.new(ARGV) do
         timer.start
 
         self.layout = Qt::VBoxLayout.new do
-            add_widget(button, 0, Qt::AlignRight)
+            hLayout = Qt::Widget.new do
+              self.layout = Qt::HBoxLayout.new do
+                add_widget(Qt::Label.new("Points: "), 0, Qt::AlignCenter)
+                add_widget(point_label, 0, Qt::AlignCenter)
+                add_widget(button, 0, Qt::AlignCenter)
+              end
+            end
+            add_widget(hLayout, 0, Qt::AlignRight)
             add_widget(canvas, 0, Qt::AlignCenter)
+        end
+
+        def add_points(points_to_add = 1)
+          @points += points_to_add
+          @point_label.setText(@points.to_s)
         end
 
         def keyPressEvent(event)
